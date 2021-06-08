@@ -5,7 +5,6 @@ from security import authenticate, identity
 from resources.user import UserRegister
 from resources.item import Item, ItemList
 from resources.store import Store, StoreList
-from db import db
 
 
 app = Flask(__name__)
@@ -13,12 +12,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'MIIEvQIBADANBgkqhkiG9w0BAQEFAASCPKcwggSjAgEAAoIBAQCAthTDTqD3WD0'
 api = Api(app)
-db.init_app(app)
-
-
-@app.before_first_request
-def create_tables():
-    db.create_all()
 
 
 jwt = JWT(app, authenticate, identity)  # /auth
